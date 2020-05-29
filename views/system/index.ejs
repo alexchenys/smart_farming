@@ -1,0 +1,95 @@
+<style>
+    .card {
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      transition: 0.3s;
+      width: 80%; 
+      margin-top: 20px;
+    }
+    
+    .card:hover {
+      box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
+    
+    .container {
+      padding: 2px 16px;
+    }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+$('document').ready(function(){
+    $returntrue=myData();
+    if (true) {
+        setInterval(function(){ myData(); }, 1000); 
+    }
+
+    function myData(){
+        $.ajax({
+            url: '/api/realtime',
+            method: 'GET'
+        })
+        .done(function(msg){
+            console.log(msg)
+            $('#Celsius').text(msg.Celsius)
+            $('#Humidity').text(msg.Humidity)
+            $('#Dirt').text(msg.Dirt)
+            $('#Water').text(msg.Water)
+            if (msg.Water < 100) {
+                $('#Water').css("color", "red");
+            }
+            else if (msg.Water > 100) {
+                $('#Water').css("color", "black");
+            }
+        })
+    }
+})
+
+</script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<div class="w3-row w3-padding-64">
+    <div class="w3-twothird w3-container">
+        <h1 class="w3-text-teal">即時監視數據</h1>
+        <div class="input-group">
+            <select class="custom-select" id="inputGroupSelect04">
+              <option selected>Choose...</option>
+              <option value="1">D107</option>
+            </select>
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button">送出</button>
+            </div>
+        </div>
+        <div class="w3-row">
+            <div class="w3-col l6">
+                <div class="card">
+                    <div class="container">
+                        <h4><b>氣溫</b></h4> 
+                        <p id="Celsius"></p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="container">
+                        <h4><b>濕度</b></h4> 
+                        <p id="Humidity"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="w3-col l6">
+                <div class="card">
+                    <div class="container">
+                        <h4><b>土壤濕度</b></h4> 
+                        <p id="Dirt"></p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="container">
+                        <h4><b>水位</b></h4> 
+                        <p id="Water"></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+  
